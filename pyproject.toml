@@ -1,0 +1,31 @@
+[project]
+authors = [{ name = "Abyteon", email = "bai.tn@icloud.com" }]
+dependencies = []
+name = "perspective_kb"
+requires-python = ">= 3.11"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge", "pypi"]
+platforms = ["osx-arm64", "win-64", "linux-64"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/perspective_kb"]
+
+[tool.pixi.pypi-dependencies]
+ollama = { path = "./wheels/ollama-0.5.3-py3-none-any.whl" }
+pymilvus = { path = "./wheels/pymilvus-2.6.0-py3-none-any.whl" }
+perspective_kb = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+notebook = { cmd = "jupyter lab" }
+main = { cmd = "python -m src.main" }
+
+[tool.pixi.dependencies]
+python = "3.12.*"
+jupyterlab = ">=4.4.6,<5"
+setuptools = "74.*"

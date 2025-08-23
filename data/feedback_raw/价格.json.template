@@ -1,0 +1,13 @@
+[
+  {
+    "fb_id": "fb_20250823_0001",
+    "raw_text": "这车比同级别贵两万，不划算。",
+    "summary": "投诉价格偏高，性价比不足。",
+    "channel": "NSS Survey",
+    "product": "问界M5",
+    "language": "zh",
+    "sentiment_pred": "negative",
+    "aspect_pred": ["PRICE_001"],
+  }
+]
+
