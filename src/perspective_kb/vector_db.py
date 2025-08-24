@@ -14,8 +14,12 @@ class LocalVectorDB:
         db_path: 本地 Milvus Lite 文件路径
         """
         self.client = MilvusClient(uri=db_path)
-        self.collections = {}  # {collection_name: schema_info}
+        self.collections = {}
+        # {collection_name: schema_info}
 
+    # -------------------------
+    # 创建 collection
+    # -------------------------
     def create_collection(self, collection_name: str, vector_dim: int, use_flat=True):
         """
         创建一个新的 collection
@@ -29,7 +33,7 @@ class LocalVectorDB:
                 dtype=DataType.VARCHAR,
                 is_primary=True,
                 auto_id=False,
-                max_length=64,
+                max_length=24,
             ),
             FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=vector_dim),
             FieldSchema(
@@ -55,6 +59,9 @@ class LocalVectorDB:
 
         self.collections[collection_name] = fields
 
+    # -------------------------
+    # 向 collection 插入或更新数据
+    # -------------------------
     def upsert(self, entities, collection_name: str):
         """
         插入或更新数据
@@ -63,6 +70,9 @@ class LocalVectorDB:
         self.client.flush(collection_name)
         self.client.load_collection(collection_name)
 
+    # -------------------------
+    # 查询向量
+    # -------------------------
     def search(self, collection_name: str, query_vectors, top_k=5):
         """
         查询向量
@@ -81,15 +91,11 @@ class LocalVectorDB:
             valid_match.append((hit.id, (hit.distance + 1) / 2))  # 归一化到[0,1]
 
         valid_match.sort(key=lambda x: x[1], reverse=False)  # 按相似度排序
-        # print(
-        #     "valid_match:",
-        #     valid_match[:3],
-        #     "metadata: ",
-        #     results[0][0].entity.get("metadata"),
-        #     "\n",
-        # )
         return valid_match[:3]  # 返回 top 3
 
+    # -------------------------
+    # 文本向量化
+    # -------------------------
     @staticmethod
     def embed(text: str) -> List[List[float]]:
         """单条文本向量化"""

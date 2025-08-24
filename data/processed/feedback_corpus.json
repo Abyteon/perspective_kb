@@ -1053,6 +1053,9 @@
       "sentiment_pred": "negative",
       "aspect_pred": [
         "PRICE_001"
+      ],
+      "aspect_manul": [
+        "null"
       ]
     }
   },
@@ -2110,6 +2113,9 @@
       "sentiment_pred": "negative",
       "aspect_pred": [
         "jfjsf_4"
+      ],
+      "aspect_manul": [
+        "null"
       ]
     }
   }

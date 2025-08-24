@@ -8,6 +8,9 @@ class DataHelper:
     def __init__(self):
         pass
 
+    # -------------------------
+    # 清理文本
+    # -------------------------
     @staticmethod
     def clean_text(text: str) -> str:
         text = text.strip()
@@ -15,18 +18,17 @@ class DataHelper:
         text = re.sub(r"[^\w\u4e00-\u9fff,.!?；]", "", text)  # 保留中英文、标点
         return text
 
+    # -------------------------------------
+    # 加载目录下的所有json文件到python列表
+    # -------------------------------------
     @staticmethod
     def load_json_list_from_directory(directory: Path) -> List[dict]:
         # 获取所有 JSON 文件
         json_files = directory.glob("*.json")
-        # print("json_files:", list(json_files)) # 有输出?
         data = []
         for json_file in json_files:
-            # print(f"Processing file: {json_file}")  # 没有输出?
             with open(json_file, "r", encoding="utf-8") as f:
-                # print(f"Loading file: {json_file}")
                 content = json.load(f)
-                # print(f"Loaded {len(content)} items from {json_file}")
                 assert isinstance(
                     content, list
                 ), f"文件 {json_file} 的内容必须是JSON列表"
@@ -34,6 +36,9 @@ class DataHelper:
                 data.extend(content)
         return data
 
+    # -------------------------
+    # 准备嵌入知识
+    # -------------------------
     @staticmethod
     def build_knowledge_text(item: dict) -> str:
         examples = "；".join(item.get("examples", [])[:3])
@@ -47,6 +52,9 @@ class DataHelper:
             f"关键词: {keywords}"
         ).strip()
 
+    # -------------------------
+    # 准备嵌入用户反馈
+    # -------------------------
     @staticmethod
     def build_feedback_text(raw_text: str, summary: str | None = None) -> str:
         if summary:

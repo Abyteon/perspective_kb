@@ -1,14 +1,14 @@
-from logging import Logger
 from pathlib import Path
 from perspective_kb.data_helper import DataHelper
 from perspective_kb.vector_db import LocalVectorDB
-from perspective_kb.utils import get_logger
+from perspective_kb.utils import get_logger, timer
 import warnings
 import json
 
 warnings.filterwarnings("ignore", category=UserWarning, module="pkg_resources")
 
 
+@timer
 def main():
     logger = get_logger()
 
