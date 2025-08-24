@@ -120,10 +120,6 @@ class DataHelper:
                     text = self.build_feedback_text(self.clean_text(raw_text), summary)
                     vec = self.embed(text)
                     mapped = local_db.search("knowledge", [vec], top_k=5)
-                    # for m in mapped:
-                    #     logger.info(f"insight_id: {m[0]}")
-                    #     logger.info(f"similarity: {m[1]}")
-                    #     logger.info(f"metadata: {m[2]}")
 
                     logger.info(f"原始反馈: {raw_text}")
                     logger.info(f"摘要: {summary}")

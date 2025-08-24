@@ -1,0 +1,13 @@
+[
+  {
+    "fb_id": "fb_20250823_0005",
+    "raw_text": "动力很强，加速很快。",
+    "summary": "表扬动力性能强劲。",
+    "channel": "NSS Survey",
+    "product": "问界M5",
+    "language": "zh",
+    "sentiment_pred": "positive",
+    "insight_pred": ["POWER_001"],
+    "insight_manul": ["null"]
+  }
+]

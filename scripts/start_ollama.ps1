@@ -13,3 +13,6 @@ Write-Host ""
 
 # 打开交互式 shell，保持变量有效
 powershell -NoExit
+
+# 启动Ollama本地服务
+Start-Process ollama -ArgumentList "serve" -WindowStyle Hidden

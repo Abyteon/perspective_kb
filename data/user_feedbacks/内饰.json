@@ -1,0 +1,13 @@
+[
+  {
+    "fb_id": "fb_20250823_0007",
+    "raw_text": "内饰用料不错，看起来很有档次。",
+    "summary": "表扬内饰设计和用料高级。",
+    "channel": "NSS Survey",
+    "product": "问界M5",
+    "language": "zh",
+    "sentiment_pred": "positive",
+    "insight_pred": ["INTERIOR_001"],
+    "insight_manul": ["null"]
+  }
+]

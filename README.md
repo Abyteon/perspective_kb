@@ -17,6 +17,13 @@ export OLLAMA_CACHE="embeddings/.ollama/cache"
 
 ```sh
 export NO_PROXY=127.0.1.1,localhost
+
+```
+
+- 1.3 启动 Ollama 服务
+
+```sh
+ollama serve
 ```
 
 ### Windows用户

@@ -1,0 +1,13 @@
+[
+  {
+    "fb_id": "fb_20250823_0008",
+    "raw_text": "售后服务态度太差。",
+    "summary": "投诉售后服务体验不佳。",
+    "channel": "NSS Survey",
+    "product": "问界M5",
+    "language": "zh",
+    "sentiment_pred": "negative",
+    "insight_pred": ["SERVICE_001"],
+    "insight_manul": ["null"]
+  }
+]

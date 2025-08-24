@@ -1,0 +1,12 @@
+[
+  {
+    "insight_id": "SERVICE_001",
+    "aspect": "售后服务",
+    "insight": "服务态度差",
+    "description": "用户抱怨售后服务体验不好，响应慢或态度差。",
+    "examples": ["售后服务态度太差", "客服不耐烦"],
+    "keywords": ["态度差", "服务差", "不耐心"],
+    "sentiment": "negative",
+    "status": "active"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "insight_id": "INTERIOR_001",
+    "aspect": "内饰",
+    "insight": "内饰高级",
+    "description": "用户对内饰设计和用料表示满意，质感好、档次高。",
+    "examples": ["内饰用料不错", "看起来很有档次"],
+    "keywords": ["用料好", "档次高", "内饰高级"],
+    "sentiment": "positive",
+    "status": "active"
+  }
+]

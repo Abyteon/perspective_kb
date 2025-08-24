@@ -1,0 +1,12 @@
+[
+  {
+    "insight_id": "EXTERIOR_001",
+    "aspect": "外观",
+    "insight": "外观设计差",
+    "description": "用户认为外观设计不符合审美或实用性差，表现为抱怨造型丑陋、设计不合理。",
+    "examples": ["外观太土", "设计不够时尚"],
+    "keywords": ["难看", "丑"],
+    "sentiment": "negative",
+    "status": "active"
+  }
+]

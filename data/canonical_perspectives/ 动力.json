@@ -1,0 +1,12 @@
+[
+  {
+    "insight_id": "POWER_001",
+    "aspect": "动力",
+    "insight": "动力强劲",
+    "description": "用户对车辆动力性能满意，加速顺畅、提速快。",
+    "examples": ["加速很快", "动力非常强"],
+    "keywords": ["动力强", "加速快", "提速顺畅"],
+    "sentiment": "positive",
+    "status": "active"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "insight_id": "NOISE_003",
+    "aspect": "噪音",
+    "insight": "噪音大",
+    "description": "用户抱怨车内或行驶过程中噪音大，隔音效果差。",
+    "examples": ["高速开起来很吵", "发动机声音太大"],
+    "keywords": ["噪音大", "隔音差", "吵"],
+    "sentiment": "negative",
+    "status": "active"
+  }
+]

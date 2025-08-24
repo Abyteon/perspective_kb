@@ -1,0 +1,13 @@
+[
+  {
+    "fb_id": "fb_20250823_0002",
+    "raw_text": "外观非常难看。",
+    "summary": "投诉外观设计不满意。",
+    "channel": "NSS Survey",
+    "product": "问界M5",
+    "language": "zh",
+    "sentiment_pred": "negative",
+    "insight_pred": ["EXTERIOR_001"],
+    "insight_manul": ["null"]
+  }
+]

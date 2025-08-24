@@ -1,0 +1,12 @@
+[
+  {
+    "insight_id": "FUEL_002",
+    "aspect": "油耗",
+    "insight": "油耗高",
+    "description": "用户认为油耗高，经济性差，抱怨加油频繁或耗油量大。",
+    "examples": ["油耗太高了", "不省油", "油费花费大"],
+    "keywords": ["油耗高", "费油", "不省油"],
+    "sentiment": "negative",
+    "status": "active"
+  }
+]

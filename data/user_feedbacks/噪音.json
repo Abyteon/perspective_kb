@@ -1,0 +1,13 @@
+[
+  {
+    "fb_id": "fb_20250823_0006",
+    "raw_text": "噪音太大，高速开起来很吵。",
+    "summary": "抱怨噪音大，隔音效果差。",
+    "channel": "NSS Survey",
+    "product": "问界M5",
+    "language": "zh",
+    "sentiment_pred": "negative",
+    "insight_pred": ["NOISE_003"],
+    "insight_manul": ["null"]
+  }
+]

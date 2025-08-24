@@ -1,0 +1,13 @@
+[
+  {
+    "fb_id": "fb_20250823_0004",
+    "raw_text": "油耗太高了，不省油。",
+    "summary": "抱怨油耗高，经济性差。",
+    "channel": "NSS Survey",
+    "product": "问界M5",
+    "language": "zh",
+    "sentiment_pred": "negative",
+    "insight_pred": ["FUEL_002"],
+    "insight_manul": ["null"]
+  }
+]

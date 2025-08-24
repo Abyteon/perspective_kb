@@ -7,6 +7,7 @@ import json
 
 @timer
 def main():
+    # 日志
     logger = get_logger()
 
     logger.info("Starting processing...")
@@ -24,7 +25,7 @@ def main():
     # 1. 处理知识库
     perspective_dictionary = data_helper.load_data_from_directory(
         "knowledge",
-        DATA_DIR / "perspective_dictionary/",
+        DATA_DIR / "canonical_perspectives/",
         local_db=local_db,
     )
     # print("perspective_dictionary: ", perspective_dictionary, "/n")
@@ -41,13 +42,13 @@ def main():
     )
 
     # 将列表写入 JSON 文件
-    with open("data/processed/perspective_dictionary.json", "w", encoding="utf-8") as f:
+    with open("data/processed/canonical_perspectives.json", "w", encoding="utf-8") as f:
         json.dump(perspective_dictionary, f, ensure_ascii=False, indent=2)
 
     # 2. 处理反馈
     feedback_corpus = data_helper.load_data_from_directory(
         "feedback",
-        DATA_DIR / "feedback_raw/",
+        DATA_DIR / "user_feedbacks/",
         local_db=local_db,
     )
 
@@ -61,9 +62,9 @@ def main():
         entities=feedback_corpus,
         collection_name="knowledge",
     )
-    print("Collections: ", local_db.collections)
+    # print("Collections: ", local_db.collections)
     # 将列表写入 JSON 文件
-    with open("data/processed/feedback_corpus.json", "w", encoding="utf-8") as f:
+    with open("data/processed/user_feedback_corpus.json", "w", encoding="utf-8") as f:
         json.dump(feedback_corpus, f, ensure_ascii=False, indent=2)
 
 
