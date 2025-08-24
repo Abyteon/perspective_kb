@@ -2576,7 +2576,7 @@ packages:
 - pypi: ./
   name: perspective-kb
   version: 0.1.0
-  sha256: 6c7051debaf66c4cdf6e91e4dcbe76702015487761b4cdc50e1b4b36c14e36e1
+  sha256: 6dbf188a975aceff708bf32dcb884711e8e2c8f40f64e7b764b3cbda88258993
   requires_python: '>=3.11'
   editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/pexpect-4.9.0-pyhd8ed1ab_1.conda

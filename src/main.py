@@ -1,8 +1,8 @@
 from pathlib import Path
+import json
 from perspective_kb.data_helper import DataHelper
 from perspective_kb.vector_db import LocalVectorDB
 from perspective_kb.utils import get_logger, timer
-import json
 
 
 @timer

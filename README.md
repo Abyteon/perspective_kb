@@ -6,24 +6,8 @@
 
 ### Linux/MacOS用户
 
-- 1.1 使用前需要添加环境变量。
-
 ```sh
-export OLLAMA_MODELS="embeddings/.ollama/models"
-export OLLAMA_CACHE="embeddings/.ollama/cache"
-```
-
-- 1.2 关闭代理，防止影响本地模型的使用。
-
-```sh
-export NO_PROXY=127.0.1.1,localhost
-
-```
-
-- 1.3 启动 Ollama 服务
-
-```sh
-ollama serve
+. scripts/start_ollama.sh
 ```
 
 ### Windows用户
