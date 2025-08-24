@@ -1,0 +1,86 @@
+[
+  {
+    "insight_id": "PRICE_001",
+    "aspect": "价格",
+    "insight": "价格偏高",
+    "description": "用户认为价格高于预期或竞品，表现为抱怨成本过高、性价比不足。",
+    "examples": [
+      "这车比同级别贵太多",
+      "价格虚高，不值得",
+      "花这么多钱买不到好体验"
+    ],
+    "keywords": ["贵", "价格高", "虚高", "不划算"],
+    "sentiment": "negative",
+    "status": "active"
+  },
+  {
+    "insight_id": "EXTERIOR_001",
+    "aspect": "外观",
+    "insight": "外观设计差",
+    "description": "用户认为外观设计不符合审美或实用性差，表现为抱怨造型丑陋、设计不合理。",
+    "examples": ["外观太土", "设计不够时尚"],
+    "keywords": ["难看", "丑"],
+    "sentiment": "negative",
+    "status": "active"
+  },
+  {
+    "insight_id": "SPACE_001",
+    "aspect": "空间",
+    "insight": "空间宽敞",
+    "description": "用户对车内空间表示满意，座椅舒适、储物充足。",
+    "examples": ["空间很大，坐着舒服", "后排腿部空间宽敞"],
+    "keywords": ["空间大", "宽敞", "舒适", "座椅舒适"],
+    "sentiment": "positive",
+    "status": "active"
+  },
+  {
+    "insight_id": "FUEL_002",
+    "aspect": "油耗",
+    "insight": "油耗高",
+    "description": "用户认为油耗高，经济性差，抱怨加油频繁或耗油量大。",
+    "examples": ["油耗太高了", "不省油", "油费花费大"],
+    "keywords": ["油耗高", "费油", "不省油"],
+    "sentiment": "negative",
+    "status": "active"
+  },
+  {
+    "insight_id": "POWER_001",
+    "aspect": "动力",
+    "insight": "动力强劲",
+    "description": "用户对车辆动力性能满意，加速顺畅、提速快。",
+    "examples": ["加速很快", "动力非常强"],
+    "keywords": ["动力强", "加速快", "提速顺畅"],
+    "sentiment": "positive",
+    "status": "active"
+  },
+  {
+    "insight_id": "NOISE_003",
+    "aspect": "噪音",
+    "insight": "噪音大",
+    "description": "用户抱怨车内或行驶过程中噪音大，隔音效果差。",
+    "examples": ["高速开起来很吵", "发动机声音太大"],
+    "keywords": ["噪音大", "隔音差", "吵"],
+    "sentiment": "negative",
+    "status": "active"
+  },
+  {
+    "insight_id": "INTERIOR_001",
+    "aspect": "内饰",
+    "insight": "内饰高级",
+    "description": "用户对内饰设计和用料表示满意，质感好、档次高。",
+    "examples": ["内饰用料不错", "看起来很有档次"],
+    "keywords": ["用料好", "档次高", "内饰高级"],
+    "sentiment": "positive",
+    "status": "active"
+  },
+  {
+    "insight_id": "SERVICE_001",
+    "aspect": "售后服务",
+    "insight": "服务态度差",
+    "description": "用户抱怨售后服务体验不好，响应慢或态度差。",
+    "examples": ["售后服务态度太差", "客服不耐烦"],
+    "keywords": ["态度差", "服务差", "不耐心"],
+    "sentiment": "negative",
+    "status": "active"
+  }
+]

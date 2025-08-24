@@ -1,11 +1,10 @@
+from importlib import metadata
 from pymilvus import (
     MilvusClient,
     DataType,
     FieldSchema,
     CollectionSchema,
 )
-from typing import List
-import ollama
 
 
 class LocalVectorDB:
@@ -45,17 +44,18 @@ class LocalVectorDB:
         # 创建索引
         index_params = self.client.prepare_index_params()
         index_params.add_index(
-            field_name="vector",  # 被索引的字段
+            # 被索引的字段
+            field_name="vector",
             # 索引类型
             index_type=("FLAT" if use_flat else "IVF_FLAT"),
-            index_name="vector_index",  # Name of the index to create
-            metric_type="L2",  # Metric type used to measure similarity
-            params={},  # No additional parameters required for FLAT
+            index_name="vector_index",
+            # 度量相似度的方式
+            metric_type="IP",
+            params={},
         )
         self.client.create_collection(
             collection_name=collection_name, schema=schema, index_params=index_params
         )
-        # self.client.load_collection(collection_name)
 
         self.collections[collection_name] = fields
 
@@ -83,26 +83,14 @@ class LocalVectorDB:
             anns_field="vector",
             limit=top_k,
             search_params={"params": {}},
-            out_fields=["id", "metadata"],
+            output_fields=["metadata"],
         )
         # print("Search results:", results)
-        valid_match = []
+        most_similar = []
         for hit in results[0]:
-            valid_match.append((hit.id, (hit.distance + 1) / 2))  # 归一化到[0,1]
+            most_similar.append(
+                (hit.id, (hit.distance + 1) / 2, hit.get("entity"))
+            )  # 归一化到[0,1]
 
-        valid_match.sort(key=lambda x: x[1], reverse=False)  # 按相似度排序
-        return valid_match[:3]  # 返回 top 3
-
-    # -------------------------
-    # 文本向量化
-    # -------------------------
-    @staticmethod
-    def embed(text: str) -> List[List[float]]:
-        """单条文本向量化"""
-        vec: ollama.EmbedResponse = ollama.embed(
-            # model="dengcao/bge-reranker-v2-m3:latest",
-            model="mitoza/Qwen3-Embedding-0.6B:latest",
-            input=text,
-        )
-        # print("Vector dimension:", len(vec["embeddings"][0]))
-        return vec["embeddings"]
+        most_similar.sort(key=lambda x: x[1], reverse=True)  # 按相似度排序
+        return most_similar[:3]  # 返回 top 3

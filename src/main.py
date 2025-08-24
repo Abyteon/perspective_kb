@@ -2,10 +2,7 @@ from pathlib import Path
 from perspective_kb.data_helper import DataHelper
 from perspective_kb.vector_db import LocalVectorDB
 from perspective_kb.utils import get_logger, timer
-import warnings
 import json
-
-warnings.filterwarnings("ignore", category=UserWarning, module="pkg_resources")
 
 
 @timer
@@ -25,34 +22,17 @@ def main():
     DATA_DIR = Path("data")
 
     # 1. 处理知识库
-    dictionary = data_helper.load_json_list_from_directory(
-        DATA_DIR / "perspective_dictionary/"
+    perspective_dictionary = data_helper.load_data_from_directory(
+        "knowledge",
+        DATA_DIR / "perspective_dictionary/",
+        local_db=local_db,
     )
-    perspective_dictionary = []
+    # print("perspective_dictionary: ", perspective_dictionary, "/n")
 
     # 创建 collection: knowledge
     local_db.create_collection(
         collection_name="knowledge", vector_dim=1024, use_flat=True
     )
-    for item in dictionary:
-        text = data_helper.build_knowledge_text(item)
-        vec = local_db.embed(text)
-        doc_meta = {
-            "type": "knowledge",
-            "aspect": item["aspect"],
-            "insight": item["insight"],
-            "sentiment": item.get("sentiment", ""),
-            "status": item.get("status", "active"),
-        }
-        perspective_dictionary.append(
-            {
-                "id": item["insight_id"],
-                "vector": vec[0],
-                "text_for_embedding": text,
-                "metadata": doc_meta,
-            }
-        )
-    # print("perspective_dictionary: ", perspective_dictionary, "/n")
 
     # 加入向量数据库
     local_db.upsert(
@@ -60,55 +40,28 @@ def main():
         collection_name="knowledge",
     )
 
-    # local_db.client.load_collection(collection_name="knowledge")
     # 将列表写入 JSON 文件
     with open("data/processed/perspective_dictionary.json", "w", encoding="utf-8") as f:
         json.dump(perspective_dictionary, f, ensure_ascii=False, indent=2)
 
     # 2. 处理反馈
-    feedbacks = data_helper.load_json_list_from_directory(DATA_DIR / "feedback_raw/")
-    feedback_corpus = []
+    feedback_corpus = data_helper.load_data_from_directory(
+        "feedback",
+        DATA_DIR / "feedback_raw/",
+        local_db=local_db,
+    )
 
     # 创建 collection: feedback
     local_db.create_collection(
         collection_name="feedback", vector_dim=1024, use_flat=True
     )
-    # local_db.client.load_collection(collection_name="feedback")
-
-    for fb in feedbacks:
-        raw_text = fb["raw_text"]
-        summary = fb.get("summary")
-        text = data_helper.build_feedback_text(
-            data_helper.clean_text(raw_text), summary
-        )
-        vec = local_db.embed(text)
-        logger.info(text.replace("\n", "\n                                "))
-        mapped = local_db.search("knowledge", vec, top_k=5)
-        logger.info(f"Mapped perspectives: {mapped}\n")
-        meta = {
-            "type": "feedback",
-            "raw_text": raw_text,
-            "summary": summary,
-            "mapped_perspectives": mapped,
-            **fb,
-        }
-
-        feedback_corpus.append(
-            {
-                "id": fb["fb_id"],
-                "vector": vec[0],
-                "text_for_embedding": text,
-                "metadata": meta,
-            }
-        )
-
-    # print("feedback_corpus: ", feedback_corpus, "/n")
 
     # 加入向量数据库
     local_db.upsert(
         entities=feedback_corpus,
         collection_name="knowledge",
     )
+    print("Collections: ", local_db.collections)
     # 将列表写入 JSON 文件
     with open("data/processed/feedback_corpus.json", "w", encoding="utf-8") as f:
         json.dump(feedback_corpus, f, ensure_ascii=False, indent=2)
