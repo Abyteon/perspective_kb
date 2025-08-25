@@ -11,6 +11,7 @@
 - 🛠️ **命令行工具**: 丰富的 CLI 操作界面
 - 📝 **结构化日志**: 完整的操作日志和错误追踪
 - ⚙️ **灵活配置**: 支持环境变量和配置文件
+- 🐳 **Docker支持**: 完整的容器化部署方案
 
 ## 🏗️ 系统架构
 
@@ -28,29 +29,82 @@ perspective_kb/
 │   ├── user_feedbacks/          # 用户反馈数据
 │   └── processed/               # 处理后数据
 ├── log/                   # 日志目录
+├── scripts/               # 部署脚本
+├── docker-compose*.yml    # Docker编排文件
+├── Dockerfile            # Docker镜像构建
 ├── pyproject.toml         # 项目配置
 └── README.md              # 项目说明
 ```
 
 ## 🚀 快速开始
 
-### 1. 环境要求
+### 方法一：Docker部署（推荐）
+
+#### Windows环境
+
+1. **安装Docker Desktop**
+   ```bash
+   # 下载并安装Docker Desktop for Windows
+   # https://www.docker.com/products/docker-desktop/
+   ```
+
+2. **启动系统**
+   ```bash
+   # 使用批处理脚本（推荐）
+   scripts/start-windows.bat
+   
+   # 或使用PowerShell脚本
+   scripts/start-windows.ps1
+   
+   # 或手动启动
+   docker-compose -f docker-compose.dev.yml up -d
+   ```
+
+3. **访问服务**
+   - 应用: http://localhost:8000
+   - Ollama: http://localhost:11434
+   - Milvus: http://localhost:19530
+
+#### Linux/macOS环境
+
+1. **安装Docker和Docker Compose**
+   ```bash
+   # 安装Docker
+   curl -fsSL https://get.docker.com | sh
+   
+   # 安装Docker Compose
+   sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   sudo chmod +x /usr/local/bin/docker-compose
+   ```
+
+2. **启动系统**
+   ```bash
+   # 开发环境
+   docker-compose -f docker-compose.dev.yml up -d
+   
+   # 生产环境
+   docker-compose -f docker-compose.windows.yml up -d
+   ```
+
+### 方法二：本地安装
+
+#### 1. 环境要求
 
 - Python 3.11+
 - Ollama 服务 (用于文本向量化)
 - 足够的磁盘空间用于向量存储
 
-### 2. 安装依赖
+#### 2. 安装依赖
 
 ```bash
 # 使用 pixi (推荐)
 pixi install
 
 # 或使用 pip
-pip install -e .
+pip install -r requirements.txt
 ```
 
-### 3. 启动 Ollama 服务
+#### 3. 启动 Ollama 服务
 
 ```bash
 # 启动 Ollama 服务
@@ -60,7 +114,7 @@ ollama serve
 ollama pull mitoza/Qwen3-Embedding-0.6B:latest
 ```
 
-### 4. 配置环境
+#### 4. 配置环境
 
 复制环境配置示例文件：
 
@@ -69,7 +123,7 @@ cp env.example .env
 # 根据需要修改 .env 文件中的配置
 ```
 
-### 5. 运行系统
+#### 5. 运行系统
 
 ```bash
 # 使用 CLI 工具
@@ -128,6 +182,52 @@ knowledge_data = data_helper.load_data_from_directory(
     Path("data/canonical_perspectives"), 
     db
 )
+```
+
+## 🐳 Docker部署详解
+
+### 生产环境
+
+使用完整的Milvus集群，适合生产环境：
+
+```bash
+docker-compose -f docker-compose.windows.yml up -d
+```
+
+包含服务：
+- **Milvus**: 完整的向量数据库集群
+- **etcd**: 元数据存储
+- **MinIO**: 对象存储
+- **Ollama**: 文本嵌入服务
+- **应用**: 视角知识库系统
+
+### 开发环境
+
+使用轻量级的Milvus Lite，适合开发和测试：
+
+```bash
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+包含服务：
+- **Milvus Lite**: 轻量级向量数据库
+- **Ollama**: 文本嵌入服务
+- **应用**: 视角知识库系统
+
+### 管理命令
+
+```bash
+# 查看服务状态
+docker-compose -f docker-compose.dev.yml ps
+
+# 查看日志
+docker-compose -f docker-compose.dev.yml logs -f
+
+# 停止服务
+docker-compose -f docker-compose.dev.yml down
+
+# 重新构建镜像
+docker-compose -f docker-compose.dev.yml build --no-cache
 ```
 
 ## ⚙️ 配置说明
@@ -231,6 +331,8 @@ mypy src/
 - 🛠️ 完整的命令行工具
 - 📝 结构化日志系统
 - ⚙️ 灵活的配置管理
+- 🐳 Docker容器化支持
+- 🪟 Windows环境优化
 
 ## 🤝 贡献指南
 

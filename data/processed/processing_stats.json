@@ -1,0 +1,20 @@
+{
+  "timestamp": 1756144580.9104562,
+  "processing_stats": {
+    "知识库记录数": 8,
+    "反馈记录数": 8,
+    "处理时间": "0.00秒",
+    "状态": "unknown",
+    "错误数量": 0
+  },
+  "settings": {
+    "embedding_model": "mitoza/Qwen3-Embedding-0.6B:latest",
+    "vector_dim": 1024,
+    "similarity_metric": "COSINE",
+    "batch_size": 100
+  },
+  "saved_files": [
+    "/Users/bai.tn/DevOps/perspective_kb/data/processed/canonical_perspectives.json",
+    "/Users/bai.tn/DevOps/perspective_kb/data/processed/user_feedback_corpus.json"
+  ]
+}

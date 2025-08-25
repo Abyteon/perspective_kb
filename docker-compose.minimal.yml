@@ -1,0 +1,53 @@
+services:
+  # 最小化版本 - 只启动应用，使用本地Ollama
+  perspective-kb:
+    container_name: perspective-kb-minimal
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # 连接到宿主机的Ollama
+      - PKB_OLLAMA_HOST=http://host.docker.internal:11434
+      - PKB_EMBEDDING_MODEL=mitoza/Qwen3-Embedding-0.6B:latest
+      
+      # 使用Milvus Lite
+      - PKB_MILVUS_USE_SERVER=false
+      - PKB_DB_PATH=./milvus_lite.db
+      
+      # 性能配置
+      - PKB_BATCH_SIZE=50
+      - PKB_MAX_WORKERS=2
+      - PKB_TOP_K=5
+      
+      # 日志配置
+      - PKB_LOG_LEVEL=INFO
+      - PKB_LOG_FORMAT=json
+      
+      # 缓存配置
+      - PKB_ENABLE_EMBEDDING_CACHE=true
+    volumes:
+      - ./data:/app/data:ro
+      - ./log:/app/log
+      - ./volumes/app_data:/app/volumes
+    ports:
+      - "8002:8000"
+    networks:
+      - minimal-network
+    restart: unless-stopped
+    command: >
+      sh -c "
+        echo '🚀 最小化模式启动...' &&
+        echo '检查Ollama连接...' &&
+        curl -f http://host.docker.internal:11434/api/version || (echo '❌ 请先启动本地Ollama: ollama serve' && exit 1) &&
+        echo '✅ Ollama连接正常' &&
+        echo '开始数据处理...' &&
+        python -m perspective_kb.cli process --force &&
+        echo '启动应用服务...' &&
+        python -m perspective_kb.cli status &&
+        echo '🎉 系统启动完成！保持运行...' &&
+        sleep 3600
+      "
+
+networks:
+  minimal-network:
+    driver: bridge

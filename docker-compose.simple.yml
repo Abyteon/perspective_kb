@@ -1,0 +1,89 @@
+services:
+  # Ollama 服务 - 嵌入模型
+  ollama:
+    container_name: perspective-kb-ollama
+    image: ollama/ollama:latest
+    # ports:
+    #   - "11435:11434"  # 不暴露外部端口，只在容器间通信
+    volumes:
+      - ./volumes/ollama:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - kb-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 视角知识库应用（使用Milvus Lite）
+  perspective-kb:
+    container_name: perspective-kb-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # 数据库配置（使用Milvus Lite）
+      - PKB_MILVUS_USE_SERVER=false
+      - PKB_DB_PATH=./milvus_lite.db
+      
+      # Ollama配置
+      - PKB_OLLAMA_HOST=http://ollama:11434
+      - PKB_EMBEDDING_MODEL=mitoza/Qwen3-Embedding-0.6B:latest
+      
+      # 向量配置
+      - PKB_VECTOR_DIM=1024
+      - PKB_SIMILARITY_METRIC=COSINE
+      
+      # 性能配置
+      - PKB_BATCH_SIZE=50
+      - PKB_MAX_WORKERS=2
+      - PKB_TOP_K=5
+      
+      # 日志配置
+      - PKB_LOG_LEVEL=INFO
+      - PKB_LOG_FORMAT=json
+      
+      # 缓存配置
+      - PKB_ENABLE_EMBEDDING_CACHE=true
+      
+      # 网络配置
+      - NO_PROXY=localhost,127.0.0.1,::1,ollama
+      - no_proxy=localhost,127.0.0.1,::1,ollama
+    volumes:
+      - ./data:/app/data:ro          # 只读数据目录
+      - ./log:/app/log               # 日志目录
+      - ./volumes/app_data:/app/volumes  # 应用数据目录
+    ports:
+      - "8000:8000"
+    depends_on:
+      ollama:
+        condition: service_healthy
+    networks:
+      - kb-network
+    restart: unless-stopped
+    command: >
+      sh -c "
+        echo '🚀 启动视角知识库系统...' &&
+        echo '等待Ollama服务就绪...' &&
+        sleep 10 &&
+        echo '拉取嵌入模型...' &&
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"mitoza/Qwen3-Embedding-0.6B:latest\"}' || echo '模型拉取失败，继续启动...' &&
+        echo '开始数据处理...' &&
+        python -m perspective_kb.cli process --force &&
+        echo '启动应用服务...' &&
+        python -m perspective_kb.cli status
+      "
+
+networks:
+  kb-network:
+    driver: bridge
+    name: perspective-kb-network
+
+volumes:
+  ollama:
+    name: perspective-kb-ollama-data
+  app_data:
+    name: perspective-kb-app-data

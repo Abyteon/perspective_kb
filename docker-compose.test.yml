@@ -1,0 +1,33 @@
+services:
+  # 简单测试版本 - 只启动应用，不启动Ollama
+  perspective-kb-test:
+    container_name: perspective-kb-test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # 使用本地Ollama（如果有的话）
+      - PKB_OLLAMA_HOST=http://host.docker.internal:11434
+      - PKB_EMBEDDING_MODEL=mitoza/Qwen3-Embedding-0.6B:latest
+      - PKB_MILVUS_USE_SERVER=false
+      - PKB_DB_PATH=./milvus_lite.db
+      - PKB_LOG_LEVEL=DEBUG
+    volumes:
+      - ./data:/app/data:ro
+      - ./log:/app/log
+    ports:
+      - "8001:8000"
+    networks:
+      - test-network
+    command: >
+      sh -c "
+        echo '🚀 测试模式启动...' &&
+        echo '检查系统状态...' &&
+        python -m perspective_kb.cli status &&
+        echo '保持运行状态...' &&
+        sleep 3600
+      "
+
+networks:
+  test-network:
+    driver: bridge

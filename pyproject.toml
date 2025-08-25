@@ -1,21 +1,6 @@
 [project]
 authors = [{ name = "Abyteon", email = "bai.tn@icloud.com" }]
-dependencies = [
-    "pymilvus>=2.6.0",
-    "ollama>=0.5.3",
-    "pydantic>=2.10.0",
-    "pydantic-settings>=2.8.0",
-    "structlog>=24.1.0",
-    "rich>=14.0.0",
-    "typer>=0.12.0",
-    "click>=8.1.0",
-    "numpy>=1.26.0",
-    "pandas>=2.2.0",
-    "tqdm>=4.66.0",
-    "python-dotenv>=1.0.0"
-]
 name = "perspective_kb"
-requires-python = ">= 3.11"
 version = "0.1.0"
 description = "基于向量数据库的视角知识库系统"
 readme = "README.md"
@@ -28,44 +13,51 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.0.0",
-    "pytest-cov>=5.0.0",
-    "black>=24.0.0",
-    "isort>=5.13.0",
-    "mypy>=1.8.0",
-    "ruff>=0.2.0",
-    "pre-commit>=4.0.0"
-]
-notebook = [
-    "jupyter>=1.0.0",
-    "jupyterlab>=4.4.6",
-    "ipywidgets>=8.0.0"
-]
+requires-python = ">= 3.11"
 
 [build-system]
 build-backend = "hatchling.build"
 requires = ["hatchling"]
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/perspective_kb"]
+
 [tool.pixi.workspace]
 channels = ["conda-forge", "pypi"]
 platforms = ["osx-arm64", "win-64", "linux-64"]
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/perspective_kb"]
+[tool.pixi.dependencies]
+python = "3.12.*"
+jupyterlab = ">=4.4.6,<5"
+setuptools = ">=75.0.0"
 
 [tool.pixi.pypi-dependencies]
-ollama = { path = "./wheels/ollama-0.5.3-py3-none-any.whl" }
-pymilvus = { path = "./wheels/pymilvus-2.6.0-py3-none-any.whl" }
+# 2025年最新版本的向量数据库和嵌入模型依赖
+pymilvus = ">=2.6.0"  # 使用最新的PyMilvus版本
+ollama = ">=0.5.3"    # 使用最新的Ollama Python客户端
+# 现代Python配置和数据处理
+pydantic = ">=2.10.0"
+pydantic-settings = ">=2.8.0"
+# 高质量日志和用户界面
+structlog = ">=24.2.0"
+rich = ">=14.0.0"
+# CLI工具和实用程序
+typer = ">=0.15.0"
+click = ">=8.1.0"
+# 科学计算和数据处理
+numpy = ">=1.26.0"
+pandas = ">=2.2.0"
+tqdm = ">=4.67.0"
+# 配置管理
+python-dotenv = ">=1.0.1"
+# 开发包本身
 perspective_kb = { path = ".", editable = true }
 
 [tool.pixi.tasks]
 notebook = { cmd = "jupyter lab" }
 main = { cmd = "python -m src.main" }
-
-[tool.pixi.dependencies]
-python = "3.12.*"
-jupyterlab = ">=4.4.6,<5"
-setuptools = "74.*"
+process = { cmd = "python -m perspective_kb.cli process" }
+status = { cmd = "python -m perspective_kb.cli status" }
+search = { cmd = "python -m perspective_kb.cli search" }
+collections = { cmd = "python -m perspective_kb.cli collections" }
+config = { cmd = "python -m perspective_kb.cli config" }

@@ -10,7 +10,7 @@ __email__ = "bai.tn@icloud.com"
 
 # 主要类
 from .config import Settings, settings
-from .vector_db import LocalVectorDB, VectorDBError
+from .vector_db import LocalVectorDB, ServerVectorDB, get_vector_db, VectorDBError
 from .data_helper import DataHelper, DataProcessingError
 from .utils import (
     get_logger,
@@ -35,6 +35,8 @@ __all__ = [
     
     # 核心类
     "LocalVectorDB",
+    "ServerVectorDB",
+    "get_vector_db",
     "VectorDBError",
     "DataHelper", 
     "DataProcessingError",
